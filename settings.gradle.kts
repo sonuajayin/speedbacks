@@ -1,3 +1,3 @@
 
-rootProject.name = "beavers-speedbacks"
+rootProject.name = "speedbacks"
 
