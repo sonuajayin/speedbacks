@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: src/main/kotlin/MeetingGenerator.kt
+  checksum: 7f9ea46cd2fcf878596c48382e9cfee112aefeac6355d6cce3f90453c7b4094d
+version: ""
