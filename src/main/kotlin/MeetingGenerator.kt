@@ -23,27 +23,24 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
         var time = startTime
         val numOfMembers = members.size
         val evenMembers: Array<String?>
-        var k = 0
+        var k=0
         if (numOfMembers % 2 == 0) {
             evenMembers = arrayOfNulls(numOfMembers - 1)
-            k = 0
             while (k < numOfMembers - 1) {
                 evenMembers[k] = members[k + 1]
                 k++
             }
         } else {
             evenMembers = arrayOfNulls(numOfMembers)
-            k = 0
             while (k < numOfMembers - 1) {
                 evenMembers[k] = members[k + 1]
                 k++
             }
             evenMembers[numOfMembers - 1] = lounge
         }
-        val teamsSize = evenMembers.size //it is even number
-        val total = teamsSize + 1 - 1 // rounds needed to complete
+        val teamsSize = evenMembers.size
         val halfSize = (teamsSize + 1) / 2
-        for (slot in total - 1 downTo 0) {
+        for (slot in teamsSize - 1 downTo 0) {
             var roomNo = 1
             println("Time $time")
             val teamIndex = slot % teamsSize
@@ -85,7 +82,7 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
                 val filteredPair =
                     meetingConfigs.filter { it.member == member || it.meetingWith == member }.sortedBy { it.id }
                 for (pair in filteredPair) {
-                    var otherPerson = if (pair.meetingWith != member) pair.meetingWith else pair.member
+                    val otherPerson = if (pair.meetingWith != member) pair.meetingWith else pair.member
                     var room = lounge
                     var meetingWith = emptySpace
                     if (otherPerson != lounge) {
