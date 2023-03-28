@@ -41,20 +41,20 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
             evenMembers[numOfMembers - 1] = lounge
         }
         val teamsSize = evenMembers.size //it is even number
-        val total = teamsSize + 1 - 1 // rounds needed to complete tournament
+        val total = teamsSize + 1 - 1 // rounds needed to complete
         val halfSize = (teamsSize + 1) / 2
         for (slot in total - 1 downTo 0) {
             var roomNo = 1
             println("Time $time")
             val teamIndex = slot % teamsSize
-            println("meeting $meetingId " + members[0] + " with. " + evenMembers[teamIndex] + " in Room " + roomNo)
+            println("meeting $meetingId " + members[0] + " with " + evenMembers[teamIndex] + " in Room " + roomNo)
             meetingConfigs.add(MeetingConfig(meetingId, members[0], evenMembers[teamIndex]!!, roomNo, time))
             roomNo++
             meetingId++
             for (i in 1 until halfSize) {
                 val firstTeam = (slot + i) % teamsSize
                 val secondTeam = (slot + teamsSize - i) % teamsSize
-                println("meeting $meetingId " + evenMembers[firstTeam] + " with. " + evenMembers[secondTeam] + " in Room " + roomNo)
+                println("meeting $meetingId " + evenMembers[firstTeam] + " with " + evenMembers[secondTeam] + " in Room " + roomNo)
                 meetingConfigs.add(
                     MeetingConfig(
                         meetingId,
