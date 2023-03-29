@@ -71,7 +71,7 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
 
     private fun OutputStream.writeCsv(meetingConfigs: List<MeetingConfig>) {
         val writer = bufferedWriter()
-        writer.write("""Member, Time, Room, Meeting With""")
+        writer.write("""Member, Time (IST/CET), Room, Meeting With""")
         writer.newLine()
         var lastMember = ""
         val emptySpace = "  "
