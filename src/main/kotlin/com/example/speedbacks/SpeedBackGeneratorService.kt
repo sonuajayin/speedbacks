@@ -1,16 +1,29 @@
+package com.example.speedbacks
+
 import com.example.models.MeetingConfig
-import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.time.LocalTime
+import org.springframework.stereotype.Service
 
-class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: Long) {
+@Service
+class SpeedBackGeneratorService {
 
-    private var meetingConfigs = mutableListOf<MeetingConfig>()
     private val lounge = "Lounge"
-    private val teamFile = "TeamMembers"
-    private val members = File(teamFile).readLines()
+    private var meetingConfigs = mutableListOf<MeetingConfig>()
+    private val members = mutableListOf<String>()
+    private lateinit var startTime: LocalTime
+    private var intervalInMinutes: Long = 0
+
+    fun generate(request: SpeedBackRequestDto): SpeedBacksResponse {
+        members.addAll(request.teamMembers.keys)
+        val (h, m) = request.startTime.split(':')
+        startTime = LocalTime.of(h.toInt(), m.toInt())
+        intervalInMinutes = request.intervalInMinutes.toLong()
+        scheduler()
+        return SpeedBacksResponse(meetingConfigs)
+    }
 
     fun generate() {
         scheduler()
@@ -24,7 +37,7 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
         var time = startTime
         val numOfMembers = members.size
         val evenMembers: Array<String?>
-        var k=0
+        var k = 0
         if (numOfMembers % 2 == 0) {
             evenMembers = arrayOfNulls(numOfMembers - 1)
             while (k < numOfMembers - 1) {
@@ -87,7 +100,7 @@ class MeetingGenerator(private val startTime: LocalTime, val intervalInMinutes: 
                     var room = lounge
                     var meetingWith = emptySpace
                     if (otherPerson != lounge) {
-                        room = "Room " +pair.roomNumber.toString()
+                        room = "Room " + pair.roomNumber.toString()
                         meetingWith = otherPerson
                     }
                     val time = pair.time.toString() + " / " + pair.time.minusMinutes(210).toString()

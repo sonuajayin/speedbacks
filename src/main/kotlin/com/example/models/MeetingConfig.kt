@@ -1,3 +1,5 @@
+package com.example.models
+
 import java.time.LocalTime
 
 data class MeetingConfig(
